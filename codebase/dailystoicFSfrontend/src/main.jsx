@@ -5,11 +5,13 @@ import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Login from "@/routes/login.jsx";
 import RegistrationForm from "@/routes/register.jsx";
 import Register from "@/routes/register.jsx";
+import Layout from "./components/layouts/layout.jsx"
+import HomePage from "@/routes/homepage.jsx";
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <div>Homepage</div>,  // Use JSX element instead of string
+        element: <HomePage />,
     },
     {
         path: '/register',
@@ -24,6 +26,8 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
 
     <React.StrictMode>
-        <RouterProvider router={router} />
+        <Layout>
+            <RouterProvider router={router} />
+        </Layout>
     </React.StrictMode>,
 )

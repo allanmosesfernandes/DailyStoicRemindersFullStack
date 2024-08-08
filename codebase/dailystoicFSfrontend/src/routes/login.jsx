@@ -1,26 +1,61 @@
 import { useForm } from 'react-hook-form';
+import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import {yupResolver} from "@hookform/resolvers/yup";
 import {userSchema} from "@/lib/schema.js";
 import { Link } from 'react-router-dom';
+import {capitalizeFirstLetter} from "@/utils/helpers.js";
+import {toast} from "@/components/ui/use-toast.js";
+import {useNavigate} from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+
 
 export default function LoginPage() {
+    const [showPassword, setShowPassword] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
     const onSubmit = async (data) => {
-        console.log('data', data);
         try {
             const response = await axios.post('http://localhost:5432/signin', data);
             if(response.status === 200 && response.data?.token) {
-                // Store the token in cookies
-                Cookies.set('token', response.data.token, { expires: 30 }); // Set the cookie to expire in 7 days
+                const userData = response.data.user;
+                // Store token in cookies
+                Cookies.set('token', response.data.token, { expires: 30 }); // Set the cookie to expire in 30 days
+
+                // Store user data in localStorage
+                localStorage.setItem('user', JSON.stringify(userData));
+
+                // Show a welcome message
+                const firstNameCapitalized = capitalizeFirstLetter(userData.firstName);
+                toast({
+                    title: `Welcome back, ${firstNameCapitalized}!`,
+                    description: "You have successfully signed in.",
+                    duration: 3000,
+                });
+
+                // Redirect to homepage
+                setTimeout(() => {
+                    navigate('/');
+                }, 3000); // Adjust the delay as needed (5 seconds in this example)
             }
         }catch(error) {
-            console.error(error)
+            const errorMessage = error.response?.status === 401 ? "Invalid username or password" : "An error occurred, please try again";
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: errorMessage,
+            })
         }
     };
 
@@ -41,14 +76,19 @@ export default function LoginPage() {
                         />
                         <p className="text-red-500 text-sm">{errors.email?.message}</p>
                     </div>
-                    <div>
+                    <div className="relative">
                         <label className="block text-sm font-medium text-white">Password</label>
                         <input
-                            type="password"
+                            type={showPassword ? 'text' : 'password'}
                             required={true}
                             {...register('password')}
                             placeholder="Enter your password"
                             className="mt-1 mb-2 px-3 py-2 bg-transparent border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full text-white"
+                        />
+                        <FontAwesomeIcon
+                            icon={showPassword ? faEyeSlash : faEye}
+                            onClick={togglePasswordVisibility}
+                            className="absolute right-4 top-9 cursor-pointer text-gray-400"
                         />
                         <p className="text-red-500 text-sm font-bold">{errors.password?.message}</p>
                     </div>

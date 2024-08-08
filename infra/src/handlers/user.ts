@@ -22,6 +22,7 @@ export const createNewUser = async (req, res) => {
     }
 }
 
+/* Sign in existing user */
 export const signIn = async (req,res) => {
     try {
         const user = await prisma.user.findUnique({
@@ -29,9 +30,9 @@ export const signIn = async (req,res) => {
                 email: req.body.email,
             },
         });
+
         if (!user) {
-            res.status(401).json({ message: 'User not found' });
-            return;
+            return res.status(401).json({ message: 'User not found' });
         }
 
         const isValid = await comparePasswords(req.body.password, user.password);
@@ -39,12 +40,14 @@ export const signIn = async (req,res) => {
         if(!isValid) {
             res.status(401)
             res.json({message: 'Not authorized'})
+        }else {
+            const token = createJWT(user);
+            // Remove the password field from the user object before sending the response
+            const { password, ...userData } = user;
+            return res.status(200).json({ token, user: userData });
         }
 
-        const token = createJWT(user)
-        res.status(200)
-        res.json({ token })
     }catch (error) {
-        res.status(500).json({ error: 'An error occurred during sign-in' });
+        return res.status(500).json({ error: 'An error occurred during sign-in' });
     }
 }

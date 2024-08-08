@@ -1,12 +1,19 @@
+/* Libraries */
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import axios from 'axios';
-import { userSchema } from '../lib/schema.js'; // Adjust the import path accordingly
 import { useToast } from "@/components/ui/use-toast"
-import Cookies from 'js-cookie';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
+/* Schemas  */
+import { userSchema } from '../lib/schema.js';
+import {capitalizeFirstLetter} from "@/utils/helpers.js";
 
 export default function Register() {
+    const { toast } = useToast();
+    const navigate = useNavigate();
+
     const {
         register,
         handleSubmit,
@@ -16,15 +23,29 @@ export default function Register() {
     });
 
     const onSubmit = async (data) => {
-        console.log('data', data);
+        const firstname = capitalizeFirstLetter(data.firstname);
         try {
             const response = await axios.post('http://localhost:5432/register', data);
             if(response.status === 200 && response.data?.token) {
                 // Store the token in cookies
-                Cookies.set('token', response.data.token, { expires: 30 }); // Set the cookie to expire in 7 days
+                Cookies.set('token', response.data.token, { expires: 30 });
+                toast({
+                    title: `Welcome, ${firstname}!`,
+                    description: "Your account has been created successfully.",
+                    duration: 3000,
+                })
+                // Delay the redirection to allow the toast message to be fully displayed
+                setTimeout(() => {
+                    navigate('/');
+                }, 3000);
             }
         }catch(error) {
-            console.error(error)
+            const errorMessage = error.response?.data?.error || "An error occurred during registration";
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: errorMessage,
+            })
         }
     };
 
