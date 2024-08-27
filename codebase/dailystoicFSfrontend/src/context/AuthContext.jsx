@@ -1,0 +1,8 @@
+import { createContext } from "react";
+import User from "../hooks/useUser";
+
+export const AuthContext = createContext({
+    user: null,
+    isAuthenticated: false,
+    setUser: () => {},
+})

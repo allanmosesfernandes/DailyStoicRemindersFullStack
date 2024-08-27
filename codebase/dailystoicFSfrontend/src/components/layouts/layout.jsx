@@ -1,9 +1,13 @@
 import { Toaster } from "@/components/ui/toaster";
+import Navbar from "../header";
 
 const Layout = ({ children }) => {
     return (
         <div>
-            <main>{children}</main>
+            <main>
+                <Navbar />
+                {children}
+            </main>
             <Toaster />
         </div>
     );
