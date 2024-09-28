@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import Quotes from "../assets/quotes.js";
 
 const DailyQuote = () => {
@@ -13,21 +13,19 @@ const DailyQuote = () => {
     const fullyear = today.getFullYear();
     console.log('quoteOfTheDay', quoteOfTheDay);
     return (
-        <>
-            <div className="d-flex flex-column align-items-center justify-center h-100 text-center mt-8">
-                <h1 className="font-gothic text-8xl border-t-2 border-slate-400 border-b-2 mt-20 mb-10 p-4">{`${monthName} ${monthDate}, ${fullyear}`}</h1>
-                <p className="relative width-fit text-3xl font-playfair w-fit m-auto title-styles my-10">{quoteOfTheDay.title}</p>
-            </div>
+    <>
+        <div className="d-flex flex-column align-items-center justify-center h-100 text-center mt-8">
+            <h1 className="font-gothic text-8xl border-t-2 border-slate-400 border-b-2 mt-20 mb-10 p-4">{`${monthName} ${monthDate}, ${fullyear}`}</h1>
+            <p className="relative width-fit text-3xl font-playfair w-fit m-auto title-styles my-10">{quoteOfTheDay.title}</p>
+        </div>
 
-            <div>
-                <p className="text-2xl font-playfair text-center mx-auto w-8/12"> {quoteOfTheDay.quote} <br/><span>- {quoteOfTheDay.author}</span>
-                </p>
-            </div>
-
-            <div className="my-12">
-                <p className="text-2xl font-playfair text-center mx-auto w-10/12"> {quoteOfTheDay.text} </p>
-            </div>
-        </>
+        <div>
+            <p className="text-2xl font-playfair text-center mx-auto w-8/12">{quoteOfTheDay.quote}</p>
+            <p className="text-2xl font-playfair">
+                {quoteOfTheDay.author}
+            </p>
+        </div>
+    </>
     )
 }
 
