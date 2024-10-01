@@ -98,10 +98,10 @@
     }
     .social-link {
         cursor: pointer;
-        width: 300px;
         margin-left: 20px;
         display: inline-flex; /* Use inline-flex to align text and image horizontally */
         align-items: center;
+        width: 100%;
         transition: transform 0.2s ease-in-out; /* Ensure smooth transition */
     }
 
