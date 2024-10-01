@@ -2,17 +2,20 @@ import { useForm } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import {yupResolver} from "@hookform/resolvers/yup";
-import {userSchema} from "@/lib/schema.js";
+import { yupResolver } from '@hookform/resolvers/yup';
+import { userSchema } from '@/lib/schema.js';
 import { Link } from 'react-router-dom';
-import {capitalizeFirstLetter} from "@/utils/helpers.js";
-import {toast} from "@/components/ui/use-toast.js";
-import {useNavigate} from "react-router-dom";
+import { capitalizeFirstLetter } from '@/utils/helpers.js';
+import { toast } from '@/components/ui/use-toast.js';
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-
+import { useAuthContext } from '@/context/AuthContext';
 
 export default function LoginPage() {
+    const { login } = useAuthContext();
+    const { user } = useAuthContext();
+    console.log('login', login);
     const [showPassword, setShowPassword] = useState(false);
 
     const togglePasswordVisibility = () => {
@@ -25,45 +28,35 @@ export default function LoginPage() {
         handleSubmit,
         formState: { errors },
     } = useForm();
+
     const onSubmit = async (data) => {
+        const { email, password } = data;
+
         try {
-            const response = await axios.post('http://localhost:5432/signin', data);
-            if(response.status === 200 && response.data?.token) {
-                const userData = response.data.user;
-                // Store token in cookies
-                Cookies.set('token', response.data.token, { expires: 30 }); // Set the cookie to expire in 30 days
-
-                // Store user data in localStorage
-                localStorage.setItem('user', JSON.stringify(userData));
-
-                // Show a welcome message
-                const firstNameCapitalized = capitalizeFirstLetter(userData.firstName);
+            const response = await login(email, password);
+            if (response) {
                 toast({
-                    title: `Welcome back, ${firstNameCapitalized}!`,
-                    description: "You have successfully signed in.",
+                    title: 'Login Successful',
+                    description: 'You have been logged in successfully.',
                     duration: 3000,
                 });
-
-                // Redirect to homepage
-                setTimeout(() => {
-                    navigate('/');
-                }, 3000); // Adjust the delay as needed (5 seconds in this example)
+                navigate('/'); // Redirect to a protected route after login
             }
-        }catch(error) {
-            const errorMessage = error.response?.status === 401 ? "Invalid username or password" : "An error occurred, please try again";
+        } catch (error) {
+            console.error('Login Error:', error);
             toast({
-                variant: "destructive",
-                title: "Uh oh! Something went wrong.",
-                description: errorMessage,
-            })
+                variant: 'destructive',
+                title: 'Login Failed',
+                description: error.message || 'An error occurred during login. Please try again.',
+            });
         }
     };
 
     return (
         <div className="flex flex-col h-screen items-center justify-center">
             <div className="w-full max-w-md border border-zinc-50 p-8 rounded-lg">
-                <h2 className="text-2xl font-bold text-white mb-4">Sign Up</h2>
-                <p className="text-gray-400 mb-2">Enter your information to create an account</p>
+                <h2 className="text-2xl font-bold text-white mb-4">Sign In</h2>
+                <p className="text-gray-400 mb-2">Enter your details to login to your account</p>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     <div>
                         <label className="block text-sm font-medium text-white">Email</label>
@@ -109,10 +102,10 @@ export default function LoginPage() {
                 </div>
                 <div className="mt-4 text-center">
                     <Link to="/register" className="text-white hover:underline">
-                       Don't have an account? Sign up
+                        Don't have an account? Sign up
                     </Link>
                 </div>
             </div>
         </div>
-    )
+    );
 }

@@ -1,34 +1,39 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import './index.css'
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "@/routes/login.jsx";
 import RegistrationForm from "@/routes/register.jsx";
-import Register from "@/routes/register.jsx";
-import Layout from "./components/layouts/layout.jsx"
+import Register from "@/routes/register.jsx"; // Consider removing if redundant
+import Layout from "./components/layouts/layout.jsx";
 import HomePage from "@/routes/homepage.jsx";
+import AuthProvider from './context/AuthContext';
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <HomePage />,
+        element: <Layout />,
+        children: [
+            {
+                index: true, // Use index instead of path '/'
+                element: <HomePage />,
+            },
+            {
+                path: 'register', // Removed the leading slash
+                element: <Register />,
+            },
+            {
+                path: 'login', // Removed the leading slash
+                element: <Login />,
+            }
+        ]
     },
-    {
-        path: '/register',
-        element: <Register />,
-    },
-    {
-        path: '/login',
-        element: <Login />,
-    }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-
     <React.StrictMode>
-        <RouterProvider router={router}>
-            <Layout>
-            </Layout>
-        </RouterProvider>
+        <AuthProvider>
+            <RouterProvider router={router} />
+        </AuthProvider>
     </React.StrictMode>,
-)
+);

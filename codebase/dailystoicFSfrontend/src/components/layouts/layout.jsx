@@ -1,12 +1,13 @@
+import { Outlet } from 'react-router-dom';
 import { Toaster } from "@/components/ui/toaster";
 import Navbar from "../header";
 
-const Layout = ({ children }) => {
+const Layout = () => {
     return (
         <div>
             <main>
                 <Navbar />
-                {children}
+                <Outlet /> {/* This replaces {children} */}
             </main>
             <Toaster />
         </div>

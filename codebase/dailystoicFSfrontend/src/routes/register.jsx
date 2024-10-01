@@ -3,17 +3,19 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from '@/components/ui/use-toast';
 import { Link, useNavigate } from 'react-router-dom';
 
 /* Schemas  */
 import { userSchema } from '../lib/schema.js';
-import {capitalizeFirstLetter} from "@/utils/helpers.js";
+import { capitalizeFirstLetter } from '@/utils/helpers.js';
+import { supabase } from '@/lib/supabase.js';
+import { useAuthContext } from '@/context/AuthContext.jsx';
 
 export default function Register() {
     const { toast } = useToast();
     const navigate = useNavigate();
-
+    const { createUser } = useAuthContext();
     const {
         register,
         handleSubmit,
@@ -22,30 +24,32 @@ export default function Register() {
         resolver: yupResolver(userSchema),
     });
 
-    const onSubmit = async (data) => {
-        const firstname = capitalizeFirstLetter(data.firstname);
+    const onSubmit = async (formData) => {
+        const { email, password, firstname, lastname } = formData;
+        const userMetaData = { firstname, lastname };
+
         try {
-            const response = await axios.post('http://localhost:5432/register', data);
-            if(response.status === 200 && response.data?.token) {
-                // Store the token in cookies
-                Cookies.set('token', response.data.token, { expires: 30 });
+            // Call the register function with email, password, and extraDetails
+            const data = await createUser(email, password, userMetaData);
+
+            if (data) {
                 toast({
-                    title: `Welcome, ${firstname}!`,
-                    description: "Your account has been created successfully.",
+                    title: `Welcome, ${capitalizeFirstLetter(firstname)}!`,
+                    description: 'Your account has been created successfully.',
                     duration: 3000,
-                })
-                // Delay the redirection to allow the toast message to be fully displayed
-                setTimeout(() => {
-                    navigate('/');
-                }, 3000);
+                });
+                navigate('/'); // Redirect to the desired route after successful registration
             }
-        }catch(error) {
-            const errorMessage = error.response?.data?.error || "An error occurred during registration";
+        } catch (error) {
+            // Log the error for debugging purposes
+            console.error('Registration Error:', error);
+
+            // Display the error toast
             toast({
-                variant: "destructive",
-                title: "Uh oh! Something went wrong.",
-                description: errorMessage,
-            })
+                variant: 'destructive',
+                title: 'Uh oh! Something went wrong.',
+                description: error.message || 'We could not create your account. Please try again.',
+            });
         }
     };
 
@@ -57,7 +61,9 @@ export default function Register() {
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     <div className="flex space-x-4">
                         <div className="flex-1">
-                            <label className="block text-sm font-medium text-white">First Name</label>
+                            <label className="block text-sm font-medium text-white">
+                                First Name
+                            </label>
                             <input
                                 type="text"
                                 required={true}
@@ -68,7 +74,9 @@ export default function Register() {
                             <p className="text-red-500 text-sm">{errors.firstname?.message}</p>
                         </div>
                         <div className="flex-1">
-                            <label className="block text-sm font-medium text-white">Last Name</label>
+                            <label className="block text-sm font-medium text-white">
+                                Last Name
+                            </label>
                             <input
                                 type="text"
                                 required={true}
@@ -100,6 +108,16 @@ export default function Register() {
                             className="mt-1 mb-2 px-3 py-2 bg-transparent border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full text-white"
                         />
                         <p className="text-red-500 text-sm font-bold">{errors.password?.message}</p>
+                        <input
+                            type="password"
+                            required={true}
+                            {...register('confirmPassword')}
+                            placeholder="Confirm your password"
+                            className="mt-1 mb-2 px-3 py-2 bg-transparent border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full text-white"
+                        />
+                        <p className="text-red-500 text-sm font-bold">
+                            {errors.confirmPassword?.message}
+                        </p>
                     </div>
                     <button
                         type="submit"
@@ -117,7 +135,7 @@ export default function Register() {
                     </button>
                 </div>
                 <div className="mt-4 text-center">
-                    <Link to="/signin" className="text-white hover:underline">
+                    <Link to="/login" className="text-white hover:underline">
                         Already have an account? Sign in
                     </Link>
                 </div>

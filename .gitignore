@@ -2,3 +2,4 @@
 .vscode/settings.json
 infra/.env
 infra/.env
+/node_modules
