@@ -25,7 +25,7 @@ const SocialShare = () => {
                     <li className="flex align-center">
                         <p className="text-xl">01.</p>
                         <div className="social-link" onClick={handleCopyLink}>
-                            {copied ? 'Copied!' : 'Copy link'}
+                            {copied ? 'Link copied!' : 'Copy link'}
                             <img src={plus} alt="Plus Sign" className="social-plus" />
                         </div>
                     </li>

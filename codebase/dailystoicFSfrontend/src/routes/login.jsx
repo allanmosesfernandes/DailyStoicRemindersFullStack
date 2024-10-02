@@ -15,7 +15,6 @@ import { useAuthContext } from '@/context/AuthContext';
 export default function LoginPage() {
     const { login } = useAuthContext();
     const { user } = useAuthContext();
-    console.log('login', login);
     const [showPassword, setShowPassword] = useState(false);
 
     const togglePasswordVisibility = () => {

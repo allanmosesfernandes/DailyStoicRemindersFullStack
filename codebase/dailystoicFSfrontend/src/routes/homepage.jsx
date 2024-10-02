@@ -2,11 +2,18 @@ import DailyQuote from '@/components/dailyQuote.jsx';
 import Navbar from '@/components/header';
 import SocialShare from '@/components/socialQuote';
 import { useAuthContext } from '@/context/AuthContext';
+import { daysLeftInYear } from '@/lib/utils';
+import {
+    buildStyles,
+    CircularProgressbar,
+    CircularProgressbarWithChildren,
+} from 'react-circular-progressbar';
 
 const HomePage = () => {
     const { user } = useAuthContext();
-    const user_metadata = user?.user_metadata?.firstname;
-    console.log('user', user_metadata);
+    const daysLeft = daysLeftInYear();
+    const currentYear = new Date().getFullYear();
+
     return (
         <>
             <div className="d-flex flex-column align-items-center justify-center text-center lg:mt-8 mt-6 h-lvh">
@@ -18,6 +25,10 @@ const HomePage = () => {
                     <br />
                     Each quote serves as a gentle nudge towards introspection, helping you cultivate
                     a balanced and mindful existence.
+                </p>
+                <p className="lg:text-3xl text-xl font-playfair lg:w-9/12 w-11/12 mx-auto my-6">
+                    {daysLeft} <span className="font-gothic">D</span>ays remaining in {currentYear}
+                    <br />
                 </p>
             </div>
             <DailyQuote />
