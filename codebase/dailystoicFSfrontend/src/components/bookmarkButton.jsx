@@ -22,6 +22,7 @@ const BookMarkButton = ({ quote }) => {
                 duration: 3000,
             });
             navigate('/login');
+            window.scrollTo(0,0);
             return;
         }
         if (isBookmarked) {
@@ -113,7 +114,7 @@ const BookMarkButton = ({ quote }) => {
     }, [user]);
 
     return (
-        <button className="absolute top-0 right-0" onClick={() => addBookmark(quote)}>
+        <button className="sm:absolute sm:m-0 mb-2 top-0 right-0" onClick={() => addBookmark(quote)}>
             <img src={isBookmarked ? bookmarkIconFull : bookmarkIconEmpty} />
         </button>
     );

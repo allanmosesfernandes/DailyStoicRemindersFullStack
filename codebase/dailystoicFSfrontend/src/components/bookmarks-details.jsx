@@ -7,7 +7,7 @@ import { toast } from './ui/use-toast';
 import { ToastAction } from '@radix-ui/react-toast';
 import { useAuthContext } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase';
-import Trash from '../assets/images/trash.svg'
+import Trash from '../assets/images/trashy.svg'
 
 const BookmarkDetail = () => {
     const location = useLocation();
@@ -74,7 +74,7 @@ const BookmarkDetail = () => {
                 {capitalizeFirstLetter(title)}
             </h1>
             <button className="w-8/12 flex flex-col items-end mb-5 mx-auto" onClick={deleteHandler}>
-                <img src={Trash} />
+                <img src={Trash} className='w-10'/>
             </button>
             <div className="w-8/12 mx-auto text-2xl mt-6 px-4 font-playfair">
                 <p className="font-playfair">{quote}</p>
