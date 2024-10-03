@@ -1,23 +1,15 @@
 import DailyQuote from '@/components/dailyQuote.jsx';
-import Navbar from '@/components/header';
 import SocialShare from '@/components/socialQuote';
-import { useAuthContext } from '@/context/AuthContext';
 import { daysLeftInYear } from '@/lib/utils';
-import {
-    buildStyles,
-    CircularProgressbar,
-    CircularProgressbarWithChildren,
-} from 'react-circular-progressbar';
 
 const HomePage = () => {
-    const { user } = useAuthContext();
     const daysLeft = daysLeftInYear();
     const currentYear = new Date().getFullYear();
 
     return (
         <>
-            <div className="d-flex flex-column align-items-center justify-center text-center lg:mt-8 mt-6 h-lvh">
-                <h1 className="font-gothic text-4xl lg:text-8xl border-t-2 border-slate-400 border-b-2 lg:mt-20 mt-0 mb-10 p-4">
+            <div className="d-flex flex-column align-items-center justify-center text-center mt-2 h-lvh">
+                <h1 className="font-gothic text-4xl lg:text-8xl border-t-2 border-slate-400 border-b-2 mb-10 p-4">
                     Daily Stoic Reminders
                 </h1>
                 <p className="lg:text-3xl text-xl font-playfair lg:w-9/12 w-11/12 m-auto">

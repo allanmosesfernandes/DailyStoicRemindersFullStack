@@ -10,6 +10,8 @@ import HomePage from '@/routes/homepage.jsx';
 import AuthProvider from './context/AuthContext';
 import BookmarksPage from './components/bookmarksPage';
 import BookmarkDetail from './components/bookmarks-details';
+import ProtectedRoute from './routes/protectedRoute';
+import About from './routes/about';
 
 const router = createBrowserRouter([
     {
@@ -25,16 +27,27 @@ const router = createBrowserRouter([
                 element: <Register />,
             },
             {
+                path: 'about',
+                element: <About />
+            },
+            {
                 path: 'login', // Removed the leading slash
                 element: <Login />,
             },
+            // Wrap the bookmarks routes in the ProtectedRoute component
             {
                 path: 'bookmarks',
-                element: <BookmarksPage />,
-            },
-            {
-                path: 'bookmarks/:id',
-                element: <BookmarkDetail />,
+                element: <ProtectedRoute />, // Use ProtectedRoute as the parent route
+                children: [
+                    {
+                        index: true, // The main /bookmarks path
+                        element: <BookmarksPage />,
+                    },
+                    {
+                        path: ':id', // The /bookmarks/:id path for individual bookmarks
+                        element: <BookmarkDetail />,
+                    },
+                ],
             },
         ],
     },
