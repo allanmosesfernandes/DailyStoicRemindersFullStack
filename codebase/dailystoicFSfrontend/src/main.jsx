@@ -1,13 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Login from "@/routes/login.jsx";
-import RegistrationForm from "@/routes/register.jsx";
-import Register from "@/routes/register.jsx"; // Consider removing if redundant
-import Layout from "./components/layouts/layout.jsx";
-import HomePage from "@/routes/homepage.jsx";
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Login from '@/routes/login.jsx';
+import RegistrationForm from '@/routes/register.jsx';
+import Register from '@/routes/register.jsx'; // Consider removing if redundant
+import Layout from './components/layouts/layout.jsx';
+import HomePage from '@/routes/homepage.jsx';
 import AuthProvider from './context/AuthContext';
+import BookmarksPage from './components/bookmarksPage';
+import BookmarkDetail from './components/bookmarks-details';
 
 const router = createBrowserRouter([
     {
@@ -25,8 +27,16 @@ const router = createBrowserRouter([
             {
                 path: 'login', // Removed the leading slash
                 element: <Login />,
-            }
-        ]
+            },
+            {
+                path: 'bookmarks',
+                element: <BookmarksPage />,
+            },
+            {
+                path: 'bookmarks/:id',
+                element: <BookmarkDetail />,
+            },
+        ],
     },
 ]);
 
@@ -35,5 +45,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <AuthProvider>
             <RouterProvider router={router} />
         </AuthProvider>
-    </React.StrictMode>,
+    </React.StrictMode>
 );

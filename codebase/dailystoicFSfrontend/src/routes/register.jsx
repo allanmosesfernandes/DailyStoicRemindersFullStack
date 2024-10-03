@@ -8,9 +8,9 @@ import { Link, useNavigate } from 'react-router-dom';
 
 /* Schemas  */
 import { userSchema } from '../lib/schema.js';
-import { capitalizeFirstLetter } from '@/utils/helpers.js';
 import { supabase } from '@/lib/supabase.js';
 import { useAuthContext } from '@/context/AuthContext.jsx';
+import { capitalizeFirstLetter } from '@/lib/utils.js';
 
 export default function Register() {
     const { toast } = useToast();

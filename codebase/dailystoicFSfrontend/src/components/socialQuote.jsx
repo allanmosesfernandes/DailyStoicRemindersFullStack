@@ -16,11 +16,11 @@ const SocialShare = () => {
         }, 1000);
     };
     return (
-        <div className="flex text-center flex-col	lg:mt-20 mt-6 lg:w-6/12 w-11/12 mx-auto gap-6 justify-evenly">
+        <div className="flex text-center flex-col lg:mt-20 mt-6 lg:w-6/12 w-11/12 mx-auto gap-6 justify-evenly">
             <p className="lg:text-4xl text-xl font-playfair">
                 <span className="font-gothic">S</span>hare quote:
             </p>
-            <div className="lg:text-2xl leading-tight text-xl font-playfair justify-center gap-6 w-6/12 mx-auto">
+            <div className="lg:text-2xl leading-tight text-xl font-playfair justify-center gap-6 w-8/12 mx-auto mb-10">
                 <ul className="social-links">
                     <li className="flex align-center">
                         <p className="text-xl">01.</p>

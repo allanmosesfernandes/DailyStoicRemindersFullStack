@@ -5,7 +5,6 @@ import axios from 'axios';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { userSchema } from '@/lib/schema.js';
 import { Link } from 'react-router-dom';
-import { capitalizeFirstLetter } from '@/utils/helpers.js';
 import { toast } from '@/components/ui/use-toast.js';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

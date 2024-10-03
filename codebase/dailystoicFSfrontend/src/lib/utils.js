@@ -21,4 +21,8 @@ export function daysLeftInYear() {
     return daysLeft;
 }
 
+export const capitalizeFirstLetter = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+};
+
 console.log(`Days left in the year: ${daysLeftInYear()}`);

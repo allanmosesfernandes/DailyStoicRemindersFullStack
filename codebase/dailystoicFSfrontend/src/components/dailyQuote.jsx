@@ -42,14 +42,14 @@ const DailyQuote = () => {
                 </div>
             </div>
 
-            <div className="lg:w-8/12 mx-auto">
-                <p className="lg:text-2xl text-lg font-playfair text-center mx-auto leading-normal">
+            <div className="lg:w-9/12 mx-auto">
+                <p className="lg:text-2xl text-lg font-playfair text-center mx-auto lg:leading-normal">
                     {quoteOfTheDay.quote}
                 </p>
                 <p className="lg:text-2xl text-lg font-playfair lg:text-right text-center my-2">
                     {quoteOfTheDay.author}
                 </p>
-                <p className="lg:text-2xl text-xl font-playfair lg:p-0 p-4 text-center my-8 mx-auto leading-loose relative">
+                <p className="lg:text-2xl text-xl font-playfair lg:p-0 p-4 text-center my-8 mx-auto lg:leading-10 relative">
                     <span className="quote-capitalize">{quoteOfTheDay.text.charAt(0)}</span>
                     {quoteOfTheDay.text.slice(1)}
                 </p>
