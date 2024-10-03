@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import { useAuthContext } from '@/context/AuthContext';
 import { capitalizeFirstLetter } from '@/lib/utils';
+import back from '../assets/images/back.png';
 
 const BookmarksPage = () => {
     const [bookmarks, setBookmarks] = useState([]);
@@ -37,11 +38,15 @@ const BookmarksPage = () => {
     }, [user]);
 
     return (
-        <div className="d-flex flex-column align-items-center justify-center text-center lg:mt-8 mt-6 h-lvh">
-            <h1 className="font-gothic text-4xl lg:text-8xl border-t-2 border-slate-400 border-b-2 lg:mt-20 mt-0 mb-10 p-4">
+        <div className="d-flex flex-column align-items-center justify-center text-center h-lvh">
+            <span className="ml-[50px] flex mb-5">
+                <Link to="/">
+                    <img src={back} />
+                </Link>
+            </span>
+            <h1 className="font-gothic text-4xl lg:text-8xl border-t-2 border-slate-400 border-b-2 mt-0 mb-10 p-4">
                 Bookmarks
             </h1>
-
             {/* Loader */}
             {loading ? (
                 <span className="loader mt-10"></span> // Replace this with your loader class or component
@@ -54,7 +59,7 @@ const BookmarksPage = () => {
                                 <li key={bookmark.id || index} className="flex align-center mb-4">
                                     <Link
                                         to={`/bookmarks/${bookmark.id}`} // Navigates to bookmarks/:id
-                                        state={{ collection: bookmark.collection }} // Passes bookmark data as state
+                                        state={{ collection: bookmark.collection, id: bookmark.id }} // Passes bookmark data as state
                                         className="flex align-center w-full no-underline"
                                     >
                                         <p className="font-gothic text-2xl">
@@ -62,7 +67,9 @@ const BookmarksPage = () => {
                                         </p>
                                         <div className="social-link ml-4">
                                             <p>
-                                                {`${capitalizeFirstLetter(bookmark.collection.title)}.`}
+                                                {`${capitalizeFirstLetter(
+                                                    bookmark.collection.title
+                                                )}.`}
                                             </p>
                                         </div>
                                     </Link>

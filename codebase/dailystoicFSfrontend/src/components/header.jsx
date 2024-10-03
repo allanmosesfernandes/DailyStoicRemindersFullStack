@@ -8,12 +8,15 @@ const Navbar = () => {
     console.log('is user authenticated', user);
     return (
         <nav className="py-4 px-12 flex">
-            <div className="ml-auto flex gap-12">
+            <div className="ml-auto flex gap-12 items-center">
                 <Link to="/login" className="text-white font-playfair text-xl">
                     About
                 </Link>
                 {user ? (
-                    <Button onClick={logout} className="text-black font-playfair text-xl">Sign out</Button>
+                    <>
+                        <Link to="/bookmarks" className="text-white font-playfair text-xl">Bookmarks</Link>
+                        <Button onClick={logout} className="text-black font-playfair text-xl">Sign out</Button>
+                    </>
                 ) : (
                     <Link to="/login" className="text-white font-playfair text-xl">
                         Login

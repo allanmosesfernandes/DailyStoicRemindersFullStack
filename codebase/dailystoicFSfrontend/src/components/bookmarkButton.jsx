@@ -6,11 +6,14 @@ import { toast } from './ui/use-toast';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import { useEffect, useState } from 'react';
+import { ToastAction } from '@radix-ui/react-toast';
 
 const BookMarkButton = ({ quote }) => {
     const { user } = useAuthContext();
     const navigate = useNavigate();
-
+    const goToBookMarksPage = () => {
+        navigate('/bookmarks');
+    };
     const addBookmark = async (quoteOfTheDay, notes = '') => {
         if (!user) {
             toast({
@@ -24,8 +27,16 @@ const BookMarkButton = ({ quote }) => {
         if (isBookmarked) {
             toast({
                 title: 'Bookmark already exists',
-                description: 'Go to bookmarks page to view',
-                duration: 3000,
+                description: 'Click button to view',
+                action: (
+                    <ToastAction
+                        altText="Go to bookmarks"
+                        className="p-2 text-xs border-1 rounded-md font-medium shadow-lg bg-white text-black border-white"
+                        onClick={goToBookMarksPage}
+                    >
+                        Go to bookmarks
+                    </ToastAction>
+                ),
             });
             return;
         }
@@ -42,8 +53,15 @@ const BookMarkButton = ({ quote }) => {
             } else {
                 toast({
                     title: 'Bookmark added successfully',
-                    description: 'Go to the bookmarks page to access all your bookmarks',
-                    duration: 3000,
+                    action: (
+                        <ToastAction
+                            altText="Go to bookmarks"
+                            className="p-2 text-xs border-1 rounded-md font-medium shadow-lg bg-white text-black border-white"
+                            onClick={goToBookMarksPage}
+                        >
+                            Go to bookmarks
+                        </ToastAction>
+                    ),
                 });
             }
             console.log('Bookmark added:', data);
