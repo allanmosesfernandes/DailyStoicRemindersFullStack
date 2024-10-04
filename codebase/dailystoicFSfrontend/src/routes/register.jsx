@@ -5,10 +5,10 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useToast } from '@/components/ui/use-toast';
 import { Link, useNavigate } from 'react-router-dom';
+import googleLogo from '../assets/images/google.svg';
 
 /* Schemas  */
 import { userSchema } from '../lib/schema.js';
-import { supabase } from '@/lib/supabase.js';
 import { useAuthContext } from '@/context/AuthContext.jsx';
 import { capitalizeFirstLetter } from '@/lib/utils.js';
 
@@ -56,7 +56,7 @@ export default function Register() {
     return (
         <div>
             <h1 className="font-gothic text-4xl lg:text-8xl border-t-2 border-slate-400 border-b-2 mb-10 p-4 text-center">
-                Regsiter
+                Register
             </h1>
             <div className="flex flex-col h-screen items-center">
                 <div className="w-full max-w-md border border-zinc-50 p-8 rounded-lg">
@@ -137,9 +137,9 @@ export default function Register() {
                     <div className="mt-2 flex justify-between items-center">
                         <button
                             type="button"
-                            className="w-full text-bg- px-4 py-2 border border-gray-600 bg-transparent text-white rounded-md shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 mt-4"
+                            className="w-full flex justify-center gap-2 text-bg- px-4 py-2 border border-gray-600 bg-transparent text-white rounded-md shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 mt-4"
                         >
-                            Sign up with Google
+                            Sign up with Google <img src={googleLogo} alt="Google Logo" />
                         </button>
                     </div>
                     <div className="mt-4 text-center">

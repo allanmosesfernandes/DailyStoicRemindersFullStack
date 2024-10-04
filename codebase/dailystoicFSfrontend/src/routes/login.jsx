@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useAuthContext } from '@/context/AuthContext';
 import { Link } from 'react-router-dom';
+import { supabase } from '@/lib/supabase';
+import googleLogo from '../assets/images/google.svg';
 
 export default function LoginPage() {
     const { login, user } = useAuthContext(); // Access user and login from context
@@ -24,20 +26,55 @@ export default function LoginPage() {
         }
     }, [user, navigate]);
 
-    const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
-    };
-
+    // Initialize form
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
 
+    // Toggle password functionality
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
+    // On Submit Handler
     const onSubmit = async (data) => {
         const { email, password } = data;
         try {
             const response = await login(email, password);
+            if (response) {
+                toast({
+                    title: 'Login Successful',
+                    description: 'You have been logged in successfully.',
+                    duration: 3000,
+                });
+                navigate('/'); // Redirect to homepage after login
+            }
+        } catch (error) {
+            console.error('Login Error:', error);
+            toast({
+                variant: 'destructive',
+                title: 'Login Failed',
+                description: error.message || 'An error occurred during login. Please try again.',
+            });
+        }
+    };
+
+    const signInWithGoogle = async () => {
+        await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                redirectTo: `http://localhost:5173/`,
+            },
+        });
+        try {
+            const response = await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    redirectTo: `http://localhost:5173/`,
+                },
+            });
             if (response) {
                 toast({
                     title: 'Login Successful',
@@ -108,9 +145,10 @@ export default function LoginPage() {
                     <div className="mt-2 flex justify-between items-center">
                         <button
                             type="button"
-                            className="w-full text-bg- px-4 py-2 border border-gray-600 bg-transparent text-white rounded-md shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 mt-4"
+                            className="w-full flex justify-center gap-2 text-bg- px-4 py-2 border border-gray-600 bg-transparent text-white rounded-md shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 mt-4"
+                            onClick={signInWithGoogle}
                         >
-                            Sign in with Google
+                            Sign in with Google <img src={googleLogo} alt="Google Logo" />
                         </button>
                     </div>
                     <div className="mt-4 text-center">

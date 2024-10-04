@@ -1,5 +1,6 @@
 import DailyQuote from '@/components/dailyQuote.jsx';
 import SocialShare from '@/components/socialQuote';
+import StoicHabits from '@/components/stoicHabits';
 import {
     daysLeftInYear,
     getDaysInYear,
@@ -57,6 +58,7 @@ const HomePage = () => {
             </div>
             <DailyQuote />
             <SocialShare />
+            <StoicHabits />
         </>
     );
 };
