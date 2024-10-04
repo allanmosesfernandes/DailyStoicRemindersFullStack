@@ -59,7 +59,7 @@ export default function Register() {
                 Register
             </h1>
             <div className="flex flex-col h-screen items-center">
-                <div className="w-full max-w-md border border-zinc-50 p-8 rounded-lg">
+                <div className="sm:w-full w-11/12 max-w-md border border-zinc-50 p-8 rounded-lg">
                     <h2 className="text-2xl font-bold text-white mb-4">Sign Up</h2>
                     <p className="text-gray-400 mb-2">
                         Enter your information to create an account

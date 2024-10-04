@@ -39,9 +39,9 @@ const BookmarksPage = () => {
 
     return (
         <div className="d-flex flex-column align-items-center justify-center text-center h-lvh">
-            <span className="ml-[50px] flex mb-5">
+            <span className="sm:ml-[50px] ml-[20px] flex mb-5">
                 <Link to="/">
-                    <img src={back} />
+                    <img src={back} className='sm:w-full w-[20px]'/>
                 </Link>
             </span>
             <h1 className="font-gothic text-4xl lg:text-8xl border-t-2 border-slate-400 border-b-2 mt-0 mb-10 p-4">
@@ -54,19 +54,19 @@ const BookmarksPage = () => {
                 <>
                     {/* Conditional rendering for bookmarks */}
                     {bookmarks.length > 0 ? (
-                        <ul className="w-8/12 mx-auto text-2xl">
+                        <ul className="sm:w-8/12 w-11/12 mx-auto text-2xl">
                             {bookmarks.map((bookmark, index) => (
                                 <li key={bookmark.id || index} className="flex align-center mb-4">
                                     <Link
                                         to={`/bookmarks/${bookmark.id}`} // Navigates to bookmarks/:id
                                         state={{ collection: bookmark.collection, id: bookmark.id }} // Passes bookmark data as state
-                                        className="flex align-center w-full no-underline"
+                                        className="flex align-center w-full no-underline border-b-2 border-slate-400"
                                     >
-                                        <p className="font-gothic text-2xl">
+                                        <p className="font-gothic sm:text-2xl text-md">
                                             {index + 1 < 10 ? `0${index + 1}` : index + 1}.
                                         </p>
-                                        <div className="social-link ml-4">
-                                            <p>
+                                        <div className="social-link sm:ml-4 ml-2">
+                                            <p className='text-[18px] font-playfair'>
                                                 {`${capitalizeFirstLetter(
                                                     bookmark.collection.title
                                                 )}.`}

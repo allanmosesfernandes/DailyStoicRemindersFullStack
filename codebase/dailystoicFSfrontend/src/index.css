@@ -366,6 +366,24 @@
             opacity: 1;
         }
     }
+
+    .mobile-menu {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        flex-direction: column;
+        background-color: #000;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: 750ms;
+        padding: 2rem 1.5rem;
+        z-index: 1;
+    }
+
+    .mobile-menu.active {
+        left: 0;
+    }
 }
 
 @layer components {
@@ -391,6 +409,6 @@
         }
     }
     .title-styles::after {
-        right: -5%;
+        left: 101% !important;
     }
 }

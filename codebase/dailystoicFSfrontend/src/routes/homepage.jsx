@@ -58,7 +58,7 @@ const HomePage = () => {
             </div>
             <DailyQuote />
             <SocialShare />
-            <StoicHabits />
+            {/* <StoicHabits /> */}
         </>
     );
 };
