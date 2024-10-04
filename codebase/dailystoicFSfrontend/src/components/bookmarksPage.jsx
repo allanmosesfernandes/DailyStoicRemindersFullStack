@@ -38,7 +38,7 @@ const BookmarksPage = () => {
     }, [user]);
 
     return (
-        <div className="d-flex flex-column align-items-center justify-center text-center h-lvh">
+        <div className="d-flex flex-column align-items-center justify-center text-center lg:h-lvh">
             <span className="sm:ml-[50px] ml-[20px] flex mb-5">
                 <Link to="/">
                     <img src={back} className='sm:w-full w-[20px]'/>

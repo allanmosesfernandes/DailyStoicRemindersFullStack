@@ -99,8 +99,8 @@ export default function LoginPage() {
             <h1 className="font-gothic text-4xl lg:text-8xl border-t-2 border-slate-400 border-b-2 mb-10 p-4 text-center">
                 Login
             </h1>
-            <div className="flex flex-col h-screen items-center">
-                <div className="sm:w-full max-w-md border border-zinc-50 p-8 rounded-lg">
+            <div className="flex flex-col lg:h-screen items-center">
+                <div className="sm:w-full w-11/12 max-w-md border border-zinc-50 p-8 rounded-lg">
                     <h2 className="text-2xl font-bold text-white mb-4">Sign In</h2>
                     <p className="text-gray-400 mb-2">
                         Enter your details to login to your account
